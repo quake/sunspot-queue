@@ -3,18 +3,19 @@ require "sunspot/queue/sidekiq/removal_job"
 
 module Sunspot::Queue::Sidekiq
   class Backend
-    attr_reader :configuration
+    attr_reader :configuration, :delay_for
 
-    def initialize(configuration = Sunspot::Queue.configuration)
+    def initialize(configuration = Sunspot::Queue.configuration, delay_for = 10)
       @configuration = configuration
+      @delay_for = delay_for
     end
 
     def index(klass, id)
-      index_job.delay.perform(klass, id)
+      index_job.delay_for(3 + rand(@delay_for)).perform(klass, id)
     end
 
     def remove(klass, id)
-      removal_job.delay.perform(klass, id)
+      removal_job.delay_for(3 + rand(@delay_for)).perform(klass, id)
     end
 
     private
