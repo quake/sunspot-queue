@@ -9,17 +9,12 @@ module Sunspot::Queue::Sidekiq
       @configuration = configuration
     end
 
-    # Job needs to include Sidekiq::Worker
-    def enqueue(job, klass, id)
-      job.perform_async(klass, id)
-    end
-
     def index(klass, id)
-      index_job.perform_async(klass, id)
+      index_job.delay.perform(klass, id)
     end
 
     def remove(klass, id)
-      removal_job.perform_async(klass, id)
+      removal_job.delay.perform(klass, id)
     end
 
     private

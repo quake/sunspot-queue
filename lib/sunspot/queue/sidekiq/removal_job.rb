@@ -1,3 +1,4 @@
+require "sunspot/queue/helpers"
 require "sidekiq/worker"
 
 module Sunspot::Queue::Sidekiq
