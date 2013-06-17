@@ -2,7 +2,7 @@ require "sunspot/queue/helpers"
 
 module Sunspot::Queue::Sidekiq
   class RemovalJob
-    include ::Sunspot::Queue::Helpers
+    extend ::Sunspot::Queue::Helpers
 
     def self.perform(klass, id)
       without_proxy do
