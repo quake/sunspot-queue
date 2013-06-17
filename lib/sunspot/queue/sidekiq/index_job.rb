@@ -1,14 +1,10 @@
 require "sunspot/queue/helpers"
-require "sidekiq/worker"
 
 module Sunspot::Queue::Sidekiq
   class IndexJob
     include ::Sunspot::Queue::Helpers
-    include ::Sidekiq::Worker
 
-    sidekiq_options :queue => "sunspot"
-
-    def perform(klass, id)
+    def self.perform(klass, id)
       without_proxy do
         constantize(klass).find(id).solr_index
       end
